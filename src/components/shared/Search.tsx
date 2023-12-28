@@ -16,10 +16,14 @@ const Search = ({
   const searchParams = useSearchParams();
 
   useEffect(() => {
+    //This delayDebounceFn function triggers every 300 milliseconds
+    //To prevent it from so many unecessary API calls
+    //To prevent API from overloading from unecessary calls
     const delayDebounceFn = setTimeout(() => {
       let newUrl = "";
-
+      //Build the URL
       if (query) {
+        //URL Builder
         newUrl = formUrlQuery({
           params: searchParams.toString(),
           key: "query",
@@ -32,6 +36,8 @@ const Search = ({
         });
       }
 
+      console.log("Search:", newUrl);
+      //Push the new URL to navigation
       router.push(newUrl, { scroll: false });
     }, 300);
 

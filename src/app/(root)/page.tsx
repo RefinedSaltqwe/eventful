@@ -6,6 +6,7 @@ import Search from "@/components/shared/Search";
 import { SearchParamProps } from "@/types";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import Collection from "@/components/shared/Collection";
+import CategoryFilter from "@/components/shared/CategoryFilter";
 
 const RootPage: React.FC<SearchParamProps> = async ({
   searchParams,
@@ -15,6 +16,8 @@ const RootPage: React.FC<SearchParamProps> = async ({
   const page = Number(searchParams?.page) || 1;
   const searchText = (searchParams?.query as string) || "";
   const category = (searchParams?.category as string) || "";
+
+  console.log(searchParams);
 
   const events = await getAllEvents({
     query: searchText,
@@ -60,7 +63,7 @@ const RootPage: React.FC<SearchParamProps> = async ({
 
         <div className="flex w-full flex-col gap-5 md:flex-row">
           <Search />
-          {/* <CategoryFilter /> */}
+          <CategoryFilter />
         </div>
 
         <Collection

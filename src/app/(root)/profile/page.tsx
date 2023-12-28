@@ -9,6 +9,7 @@ import Link from "next/link";
 import React from "react";
 
 const ProfilePage = async ({ searchParams }: SearchParamProps) => {
+  console.log("Profile: ", searchParams?.ordersPage); //!!!!
   const { sessionClaims } = auth();
   const userId = sessionClaims?.userId as string;
 
