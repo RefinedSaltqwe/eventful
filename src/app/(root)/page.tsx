@@ -3,10 +3,26 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import Search from "@/components/shared/Search";
+import { SearchParamProps } from "@/types";
+import { getAllEvents } from "@/lib/actions/event.actions";
+import Collection from "@/components/shared/Collection";
 
-type RootPageProps = {};
+const RootPage: React.FC<SearchParamProps> = async ({
+  searchParams,
+  params,
+}) => {
+  const LIMIT = 6;
+  const page = Number(searchParams?.page) || 1;
+  const searchText = (searchParams?.query as string) || "";
+  const category = (searchParams?.category as string) || "";
 
-const RootPage: React.FC<RootPageProps> = () => {
+  const events = await getAllEvents({
+    query: searchText,
+    category,
+    page,
+    limit: LIMIT,
+  });
+
   return (
     <>
       <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10">
@@ -20,7 +36,7 @@ const RootPage: React.FC<RootPageProps> = () => {
               companies with our global community.
             </p>
             <Button size="lg" asChild className="button w-full sm:w-fit">
-              <Link href="#events">Explore Now</Link>
+              <Link href="#eventx">Explore Now</Link>
             </Button>
           </div>
 
@@ -35,7 +51,7 @@ const RootPage: React.FC<RootPageProps> = () => {
       </section>
 
       <section
-        id="events"
+        id="eventx"
         className="wrapper my-8 flex flex-col gap-8 md:gap-12"
       >
         <h2 className="h2-bold">
@@ -47,15 +63,15 @@ const RootPage: React.FC<RootPageProps> = () => {
           {/* <CategoryFilter /> */}
         </div>
 
-        {/* <Collection
+        <Collection
           data={events?.data}
           emptyTitle="No Events Found"
           emptyStateSubtext="Come back later"
           collectionType="All_Events"
-          limit={6}
+          limit={LIMIT}
           page={page}
           totalPages={events?.totalPages}
-        /> */}
+        />
       </section>
     </>
   );

@@ -54,7 +54,7 @@ export async function POST(req: Request) {
   // Get the ID and type
   const { id } = evt.data;
   const eventType = evt.type;
-
+  // Data are coming from Clerk after user has been created
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name, username } =
       evt.data;
@@ -71,6 +71,7 @@ export async function POST(req: Request) {
     const newUser = await createUser(user);
 
     if (newUser) {
+      //Updates the Public Metadata userId in Clerk Profile
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
           userId: newUser._id,
